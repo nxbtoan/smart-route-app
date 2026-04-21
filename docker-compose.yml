@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # 1. Cơ sở dữ liệu PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: smart_route_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_DB: smart_route
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+  # 2. Backend FastAPI
+  backend:
+    build: ./backend
+    container_name: smart_route_backend
+    ports:
+      - "8000:8000"
+    environment:
+      # Bơm URL kết nối Postgres vào Backend
+      - DATABASE_URL=postgresql://admin:secretpassword@db:5432/smart_route
+    depends_on:
+      - db
+    restart: always
+
+  # 3. Frontend React/Vite (Nginx)
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - VITE_MAPBOX_TOKEN=${VITE_MAPBOX_TOKEN}
+        - VITE_API_BASE_URL=${VITE_API_BASE_URL}
+    container_name: smart_route_frontend
+    ports:
+      - "80:80" 
+    depends_on:
+      - backend
+    restart: always
+
+# Khai báo volume để giữ lại dữ liệu DB khi tắt container
+volumes:
+  pgdata:

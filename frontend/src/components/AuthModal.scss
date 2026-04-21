@@ -1,0 +1,67 @@
+@reference "../index.css";
+
+@keyframes modalFadeIn {
+  from { opacity: 0; backdrop-filter: blur(0px); }
+  to { opacity: 1; backdrop-filter: blur(8px); }
+}
+
+@keyframes modalPopUp {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.auth-overlay {
+  @apply fixed inset-0 z-[9999] flex justify-center items-center bg-gray-900/40;
+  animation: modalFadeIn 0.3s ease-out forwards;
+
+  .auth-modal {
+    @apply relative bg-white/95 backdrop-blur-xl rounded-2xl p-8 w-[380px] shadow-2xl border border-white/50;
+    animation: modalPopUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+    .btn-close {
+      @apply absolute top-4 right-4 text-gray-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-full transition-all duration-200;
+    }
+
+    .modal-header {
+      @apply text-center mb-6;
+      .header-icon {
+        @apply inline-flex justify-center items-center w-16 h-16 rounded-full bg-blue-50 text-blue-600 mb-3 text-3xl shadow-inner border border-blue-100;
+      }
+      h2 { @apply m-0 text-2xl font-bold text-gray-800 tracking-tight; }
+      p { @apply mt-1 text-sm text-gray-500; }
+    }
+
+    .message-box {
+      @apply p-3 mb-5 rounded-xl text-sm font-medium text-center border transition-all;
+      &.success { @apply bg-green-50 text-green-700 border-green-200; }
+      &.error { @apply bg-red-50 text-red-600 border-red-200; }
+    }
+
+    .input-group {
+      @apply relative mb-4;
+      
+      .input-icon {
+        @apply absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg pointer-events-none;
+      }
+
+      .auth-input {
+        @apply w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-sm font-medium text-gray-700;
+      }
+    }
+
+    .btn-submit {
+      @apply w-full mt-2 py-3.5 rounded-xl text-sm font-bold text-white transition-all flex items-center justify-center gap-2;
+      @apply bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/30 hover:-translate-y-0.5 active:scale-95;
+      
+      &.loading { @apply opacity-70 cursor-not-allowed transform-none shadow-none; }
+    }
+
+    .toggle-section {
+      @apply text-center mt-6 text-sm text-gray-500;
+      
+      .toggle-link {
+        @apply font-bold text-blue-600 hover:text-indigo-700 cursor-pointer transition-colors ml-1 hover:underline underline-offset-2;
+      }
+    }
+  }
+}

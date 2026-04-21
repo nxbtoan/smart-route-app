@@ -1,0 +1,44 @@
+@reference "../index.css";
+
+.dashboard-container {
+  @apply relative w-screen h-screen overflow-hidden bg-gray-100;
+
+  /* Lớp bản đồ nằm dưới cùng */
+  .map-layer {
+    @apply absolute inset-0 z-0;
+  }
+
+  /* Khối User / Đăng nhập góc trên phải */
+  .top-right-auth {
+    @apply absolute top-5 right-[60px] z-[1000]; /* Cách lề phải 60px để không đè lên nút Fullscreen của Mapbox */
+
+    .user-profile {
+      @apply flex items-center gap-3 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full shadow-md border border-white/50 transition-all;
+
+      .greeting {
+        @apply text-sm font-bold text-gray-700 flex items-center gap-2;
+        .avatar-icon { @apply text-blue-600 text-lg; }
+      }
+
+      .btn-logout {
+        @apply text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-md transition-colors cursor-pointer flex items-center justify-center;
+      }
+    }
+
+    .btn-login {
+      @apply flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-blue-500/30 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 border border-blue-400;
+    }
+  }
+
+  /* Cột điều khiển (Sidebar) bên trái */
+  .sidebar-layer {
+    @apply absolute top-5 left-5 z-[1000] w-[380px] flex flex-col gap-4 h-[calc(100vh-40px)];
+
+    /* Ẩn thanh cuộn nhưng vẫn cho phép cuộn nội dung */
+    overflow-y: auto;
+    scrollbar-width: none; /* Dành cho Firefox */
+    &::-webkit-scrollbar {
+      display: none; /* Dành cho Chrome, Safari, Edge */
+    }
+  }
+}
