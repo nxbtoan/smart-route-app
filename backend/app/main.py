@@ -13,6 +13,7 @@ app.add_middleware(
         "http://localhost:5173",
         "http://localhost:3000",
         "http://localhost",
+        "https://smart-route-app-frontend-7lgp74fss-baotoans-projects-b0990336.vercel.app/",
     ],
     allow_credentials=True,
     allow_methods=["*"],
