@@ -9,12 +9,7 @@ app = FastAPI(title="Smart Route Optimization API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://localhost:3000",
-        "http://localhost",
-        "https://smart-route-app-frontend-7lgp74fss-baotoans-projects-b0990336.vercel.app/",
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
