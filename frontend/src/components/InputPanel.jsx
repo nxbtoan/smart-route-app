@@ -97,7 +97,8 @@ const InputPanel = () => {
         const mode = MODES[i];
         setProgress({ current: i + 1, total: MODES.length, mode });
 
-        const res = await axios.post('http://localhost:8000/api/optimize', {
+        const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+        const res = await axios.post(`${BASE_URL}/api/optimize`, {
           ...payloadBase,
           mode,
         });

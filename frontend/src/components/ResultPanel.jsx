@@ -40,7 +40,8 @@ const ResultPanel = () => {
         route_geometry: selectedData.route_geometry
       };
 
-      const response = await axios.post('http://localhost:8000/api/routes/save', payload);
+      const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+      const response = await axios.post(`${BASE_URL}/api/routes/save`, payload);
       
       if (response.data.status === 'success') {
         setSaveStatus('success');

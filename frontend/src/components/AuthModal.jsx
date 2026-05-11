@@ -22,7 +22,8 @@ const AuthModal = () => {
         const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
         
         try {
-            const res = await axios.post(`http://localhost:8000${endpoint}`, { username, password });
+            const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+            const res = await axios.post(`${BASE_URL}${endpoint}`, { username, password });
             if (res.data.status === 'success') {
                 if (isLoginMode) {
                     setUser(res.data.username); 
