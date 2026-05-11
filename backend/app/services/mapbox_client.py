@@ -2,28 +2,27 @@ import httpx
 import os
 from typing import List
 from dotenv import load_dotenv
-from app.models.schemas import MatrixRequest, Location
+from app.schemas.schemas import MatrixRequest, Location
 
-# Load biến môi trường từ file .env
 load_dotenv()
 
-MAPBOX_TOKEN = os.getenv("MAPBOX_ACCESS_TOKEN")
+MAPBOX_TOKEN = os.getenv("MAPBOX_TOKEN")
 BASE_URL = "https://api.mapbox.com"
 
 async def get_distance_matrix(request: MatrixRequest):
     """
-    Gọi Mapbox Matrix API để lấy ma trận khoảng cách và thời gian (Có kẹt xe)
+    Gọi Mapbox Matrix API để lấy ma trận khoảng cách và thời gian.
     """
     locations = request.locations
     
-    # ⚠️ Chốt an toàn: Gói miễn phí của Mapbox chỉ cho phép tối đa 25 điểm
+    # ⚠️ Chốt an toàn: Gói API Mapbox driving profile cho phép tối đa 25 điểm
     if len(locations) > 25:
-        return {"status": "error", "message": "Mapbox Matrix API chỉ hỗ trợ tối đa 25 điểm!"}
+        return {"status": "error", "message": "Mapbox Matrix API (Driving) chỉ hỗ trợ tối đa 25 điểm!"}
         
     # Chuẩn bị tọa độ: lng,lat;lng,lat
     coords_string = ";".join([f"{loc.lng},{loc.lat}" for loc in locations])
     
-    url = f"{BASE_URL}/directions-matrix/v1/mapbox/driving-traffic/{coords_string}"
+    url = f"{BASE_URL}/directions-matrix/v1/mapbox/driving/{coords_string}"
     params = {
         "annotations": "distance,duration",
         "access_token": MAPBOX_TOKEN
@@ -52,11 +51,11 @@ async def get_distance_matrix(request: MatrixRequest):
 
 async def get_route_geometry(locations: List[Location]):
     """
-    Gọi Mapbox Directions API để lấy tọa độ vẽ đường bám mặt đường chi tiết
+    Gọi Mapbox Directions API để lấy tọa độ vẽ đường bám mặt đường chi tiết.
     """
     coords_string = ";".join([f"{loc.lng},{loc.lat}" for loc in locations])
     
-    url = f"{BASE_URL}/directions/v5/mapbox/driving-traffic/{coords_string}"
+    url = f"{BASE_URL}/directions/v5/mapbox/driving/{coords_string}"
     params = {
         "geometries": "geojson",
         "overview": "full",

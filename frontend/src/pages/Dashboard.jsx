@@ -2,57 +2,31 @@ import React from 'react';
 import MapPanel from '../components/MapPanel';
 import InputPanel from '../components/InputPanel';
 import ResultPanel from '../components/ResultPanel';
-import AuthModal from '../components/AuthModal';
-import useRouteStore from '../store/useRouteStore';
-import { FaUserCircle, FaSignOutAlt, FaSignInAlt } from 'react-icons/fa';
-import './Dashboard.scss';
+import WeatherPanel from '../components/WeatherPanel';
 
 const Dashboard = () => {
-    const { user, setUser, toggleAuthModal } = useRouteStore();
+  return (
+    <div className="w-screen h-screen relative bg-gray-100 overflow-hidden text-sm">
+      {/* Bản đồ nền */}
+      <div className="absolute inset-0 z-0">
+        <MapPanel />
+      </div>
 
-    return (
-        <div className="dashboard-container">
-            {/* Lớp Bản đồ lót nền */}
-            <div className="map-layer">
-                <MapPanel />
-            </div>
+      {/* Widget Thời Tiết lơ lửng ở TOP-CENTER */}
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20 pointer-events-auto">
+        <WeatherPanel />
+      </div>
 
-            {/* Cụm Đăng nhập / Tài khoản (Góc trên phải) */}
-            <div className="top-right-auth">
-                {user ? (
-                    <div className="user-profile">
-                        <span className="greeting">
-                            <FaUserCircle className="avatar-icon" />
-                            Chào, {user}
-                        </span>
-                        <button 
-                            onClick={() => setUser(null)} 
-                            className="btn-logout" 
-                            title="Đăng xuất"
-                        >
-                            <FaSignOutAlt size={16} />
-                        </button>
-                    </div>
-                ) : (
-                    <button 
-                        onClick={() => toggleAuthModal(true)} 
-                        className="btn-login"
-                    >
-                        <FaSignInAlt size={16} /> Đăng nhập
-                    </button>
-                )}
-            </div>
-
-            {/* Cột Sidebar chứa các Panel (Góc trên trái) */}
-            <div className="sidebar-layer">
-                <InputPanel />
-                <ResultPanel />
-            </div>
-
-            {/* Gọi AuthModal (Tự động ẩn/hiện) */}
-            <AuthModal />
-        </div>
-    );
+      {/* Các Panel cũ giữ nguyên */}
+      <div className="absolute top-6 left-6 bottom-6 z-10 pointer-events-auto">
+        <InputPanel />
+      </div>
+      
+      <div className="absolute top-6 right-6 z-10 pointer-events-auto">
+        <ResultPanel />
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;
